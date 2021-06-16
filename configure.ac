@@ -845,8 +845,9 @@ char *c = crypt("abc","pw");
   have_libcrypt=no
   have_crypt=yes
 ],[
+  saved_LIBS="$LIBS"
   LIBS="$LIBS -lcrypt"
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   #ifdef HAVE_CRYPT_H
   #include <crypt.h>
   #else
@@ -862,6 +863,7 @@ char *c = crypt("abc","pw");
   ],[
   AC_MSG_WARN([crypt() is not available])
   ])
+  LIBS="$saved_LIBS"
 ])
 AM_CONDITIONAL([HAVE_LIBCRYPT], [test "x$have_libcrypt" = xyes])
 
